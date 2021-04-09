@@ -15,43 +15,43 @@ module.exports = async function issue(
 ) {
   const { network, company, gateway, org, name } = await login(certificate, privateKey);
   try {
-    
+	
 
-    // const network = await gateway.getNetwork("mychannel");
+	// const network = await gateway.getNetwork("mychannel");
 
-    const contract = await network.getContract("papercontract");
+	const contract = await network.getContract("papercontract");
 
-    // issue commercial paper
-    console.log("Submit commercial paper issue transaction.");
+	// issue commercial paper
+	console.log("Submit commercial paper issue transaction.");
 
-    const issueResponse = await contract.submitTransaction(
-      "issue",
-      company,
-      paperNumber,
-      releaseDate,
-      redeemDate,
-      cost
-    );
+	const issueResponse = await contract.submitTransaction(
+		"issue",
+		company,
+		paperNumber,
+		releaseDate,
+		redeemDate,
+		cost
+	);
 
-    // process response
-    console.log("Process issue transaction response." + issueResponse);
+	// process response
+	console.log("Process issue transaction response." + issueResponse);
 
-    let paper = CommercialPaper.fromBuffer(issueResponse);
+	let paper = CommercialPaper.fromBuffer(issueResponse);
 
-    console.log(
-      `${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`
-    );
-    console.log("Transaction complete.");
-    gateway.disconnect();
-    return paper;
-    
+	console.log(
+	  `${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`
+	);
+	console.log("Transaction complete.");
+	gateway.disconnect();
+	return paper;
+	
   } catch (error) {
-    console.log(`Error processing transaction. ${error}`);
-    console.log(error.stack);
+	console.log(`Error processing transaction. ${error}`);
+	console.log(error.stack);
   } finally {
-    // Disconnect from the gateway
-    console.log("Disconnect from Fabric gateway.");
-    
+	// Disconnect from the gateway
+	console.log("Disconnect from Fabric gateway.");
+	
   }
 };
 

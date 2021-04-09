@@ -1,15 +1,10 @@
-'use strict';
-
 const enrollAdmin = require('./enrollAdmin')
-
-
 
 const { getConnectedProfile } = require('./utils')
 
 const { enrollment } = require('./utils/auth')
 
 module.exports = async function registerUser(name, company, csr) {
-    console.log(company)
     try {
 
     const { connectionProfile, ca, mspid } = getConnectedProfile(company);
@@ -25,10 +20,8 @@ module.exports = async function registerUser(name, company, csr) {
             enrollmentID: name,
             role: 'client',
         }, admin);
-        console.log(secret)
 
     const { certificate, privateKey } = await enrollment(ca, mspid, name, secret, csr)
-    console.log('==========>',  certificate, privateKey )
     return {certificate, secret, privateKey }
 
 
