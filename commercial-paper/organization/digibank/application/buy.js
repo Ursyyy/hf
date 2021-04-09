@@ -15,25 +15,23 @@
  */
 
 'use strict';
-
+const FabricCAServices = require('fabric-ca-client');
+const { Wallets, Gateway  } = require('fabric-network');
+const fs = require('fs');
+const yaml = require('js-yaml');
+const path = require('path');
+const CommercialPaper = require('../../magnetocorp/contract/lib/paper.js');
 // Bring key classes into scope, most importantly Fabric SDK network class
-import { Wallets , Gateway } from 'fabric-network';
-import fs from 'fs';
-import yaml from 'js-yaml';
-import path from 'path';
-import CommercialPaper from '../../magnetocorp/contract/lib/paper.js';
-
-
 
 // const CommercialPaper = require('../../magnetocorp/contract/lib/paper.js');
-
+let userName = 'Oleg7';
 
 // Main program function
-export default async function buy () {
+async function buy (userName) {
 
     // A wallet stores a collection of identities for use
     const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
-
+    console.log(wallet)
 
     // A gateway defines the peers used to access Fabric networks
     const gateway = new Gateway();
@@ -42,7 +40,7 @@ export default async function buy () {
     try {
 
         // Specify userName for network access
-        const userName = 'balaji';
+
 
         // Load connection profile; will be used to locate a gateway
         let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org1.yaml', 'utf8'));
@@ -69,7 +67,7 @@ export default async function buy () {
         console.log('Use org.papernet.commercialpaper smart contract.');
 
         const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
-
+        console.log(contract)
         // buy commercial paper
         console.log('Submit commercial paper buy transaction.');
 
@@ -96,15 +94,16 @@ export default async function buy () {
 
     }
 }
-// main().then(() => {
 
-//     console.log('Buy program complete.');
+buy(userName).then(() => {
 
-// }).catch((e) => {
+    console.log('Buy program complete.');
 
-//     console.log('Buy program exception.');
-//     console.log(e);
-//     console.log(e.stack);
-//     process.exit(-1);
+}).catch((e) => {
 
-// });
+    console.log('Buy program exception.');
+    console.log(e);
+    console.log(e.stack);
+    process.exit(-1);
+
+});

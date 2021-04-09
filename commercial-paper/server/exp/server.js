@@ -4,70 +4,90 @@ var cors = require('cors')
 
 
 // const enrollAdmin = require("./scripts/enrollAdmin");registerUser
-const registerUser = require("./scripts/myScripst/registerUser");
-const issue = require("./scripts/myScripst/issue.js");
-const buy = require("./scripts/buy.js");
-const queryApp = require("./scripts/queryapp.js");
-const redeem = require("./scripts/redeem.js");
-const queryAllPaper = require("./scripts/queryAllPaper.js");
+const registerUser = require("./scripts/myScripts/registerUser");
+const {login} = require("./scripts/myScripts/utils/login");
+const issue = require("./scripts/myScripts/issue.js");
+const buy = require("./scripts/myScripts/buy.js");
+const queryApp = require("./scripts/myScripts/queryapp");
+// const queryApp = require("./scripts/queryapp.js");
+const redeem = require("./scripts/myScripts/redeem.js");
+// const queryAllPaper = require("./scripts/queryAllPaper.js");
+
 // const wallets = require('./scripts/myScripst/inMemoryWallet')
 // const history = require("./cpListener.js");
 
 
-const PORT = process.env.PORT || 3002;
+
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(cors())
 app.use(bodyParser());
 
-
 app.post("/api/registeruser", (req, res) => {
-    const { name, company } = req.body;
-    console.log(name, company );
-    registerUser( name, company ).then((data) => {
-      console.log(data);
-      res.json(data);
+    const { name, company, csr } = req.body;
+    // console.log(name, company, csr );
+    registerUser( name, company, csr ).then((data) => {
+      console.log('sert----->', data.certificate);
+      res.json(data? data: {error: "no response"});
     });
   });
 
-  app.post("/api/issue", (req, res) => {
+
+
+  app.post("/api/login", (req, res) => {
+    const {certificate, privateKey } = req.body;
+    console.log('body------:>', req.body)
+    login(certificate, privateKey).then((data) => {
+      console.log(data);
+      res.send({name: data.name, company: data.company});
+    });
+  });
+
+
+app.post("/api/issue", (req, res) => {
   
-  const { name, certificate, paperNumber, company, releaseDate, redeemDate, cost } = req.body;
-  // console.log(req.body);
-  issue(name, certificate, paperNumber, company, releaseDate, redeemDate, cost)
+  const { certificate, privateKey, paperNumber, releaseDate, redeemDate, cost } = req.body;
+
+  issue(certificate, privateKey, paperNumber, releaseDate, redeemDate, cost)
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
   });
 });
 
-app.post("/api/buy", (req, res) => {
+
+
+
+app.put("/api/buy", (req, res) => {
   
-  const { name, company, x509Identity } = req.body;
+  const { certificate, privateKey } = req.body;
   console.log(req.body);
-  buy( name, company, x509Identity )
+  buy(  certificate, privateKey )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
   });
 });
 
-app.post("/api/redeem", (req, res) => {
+
+app.put("/api/redeem", (req, res) => {
   
-  const { name, company, x509Identity } = req.body;
+  const { certificate, privateKey } = req.body;
   console.log(req.body);
-  redeem( name, company, x509Identity )
+  redeem( certificate, privateKey )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)
   });
 });
 
-app.post("/api/history", (req, res) => {
+
+app.get("/api/history", (req, res) => {
   
-  const { name, company, paper, x509Identity } = req.body;
-  console.log(x509Identity);
-  queryApp( name, company, paper, x509Identity )
+  const { certificate, privateKey, paperNumber } = req.body;
+  console.log();
+  queryApp( certificate, privateKey, paperNumber )
   .then(data => {
       console.log('test+++++++++', data)
       res.send(data)

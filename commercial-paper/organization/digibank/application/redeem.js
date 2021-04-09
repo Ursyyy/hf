@@ -17,14 +17,18 @@
 'use strict';
 
 // Bring key classes into scope, most importantly Fabric SDK network class
-import { Wallets , Gateway } from 'fabric-network';
-import fs from 'fs';
-import yaml from 'js-yaml';
-import path from 'path';
-import CommercialPaper from '../contract/lib/paper.js';
+const FabricCAServices = require('fabric-ca-client');
+const { Wallets, Gateway  } = require('fabric-network');
+const fs = require('fs');
+const yaml = require('js-yaml');
+const path = require('path');
+const CommercialPaper = require('../contract/lib/paper.js');
+
+
+let userName = 'Oleg7';
 
 // Main program function
-export default async function redeem() {
+async function redeem(userName) {
 
   // A wallet stores a collection of identities for use
   const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
@@ -38,7 +42,7 @@ export default async function redeem() {
 
     // Specify userName for network access
         // Specify userName for network access
-        const userName = 'balaji';
+
 
     // Load connection profile; will be used to locate a gateway
     let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org1.yaml', 'utf8'));
@@ -92,15 +96,15 @@ export default async function redeem() {
 
   }
 }
-// main().then(() => {
+redeem(userName).then(() => {
 
-//   console.log('Redeem program complete.');
+  console.log('Redeem program complete.');
 
-// }).catch((e) => {
+}).catch((e) => {
 
-//   console.log('Redeem program exception.');
-//   console.log(e);
-//   console.log(e.stack);
-//   process.exit(-1);
+  console.log('Redeem program exception.');
+  console.log(e);
+  console.log(e.stack);
+  process.exit(-1);
 
-// });
+});

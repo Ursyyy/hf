@@ -93,23 +93,28 @@ Approve the chaincode definition for MagnetoCorp.
 FROM path: hf/commercial-paper/organization/magnetocorp$
 ENTER:
 
-    peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
+        
 
 OUt
     2021-03-21 23:54:56.741 EET [chaincodeCmd] ClientWait -> INFO 001 txid [31b6b54148dc1f5ea1b96ec5d82b5de07fe6537a69bd1230f606d9906be2aa83] committed with status (VALID) at localhost:9051
 
-    Approve the chaincode definition for MagnetoCorp COMPLETE!
+ENTER:
 
+    peer lifecycle chaincode approveformyorg --orderer localhost:7050 --ordererTLSHostnameOverride orderer.example.com --channelID mychannel --name papercontract -v 0 --package-id $PACKAGE_ID --sequence 1 --tls --cafile $ORDERER_CA
+
+    
 Approve the chaincode definition for MagnetoCorp COMPLETE!
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 Install chaincode for digiBank.
 
 Open NEW terminal from project root dir ENTER command:
 FROM path: hf/commercial-paper/organization/digibank$
 ENTER:
+
     cd commercial-paper/organization/digibank
-    source ./digibank.sh
+    source digibank.sh
 
 OUT:
 
@@ -199,7 +204,7 @@ ENTER:
 
 Intall npm module.
 
-    nvm i 15.0.1
+    nvm i 14
     npm i
     npm run serve
 
@@ -213,7 +218,7 @@ Open new terminal:
 FROM: path: hf/commercial-paper/organization/digibank/application$
 ENTER:
 
-    nvm i 15.0.1
+    nvm i 14
     npm i
     npm run serve
 

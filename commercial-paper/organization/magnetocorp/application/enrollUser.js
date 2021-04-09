@@ -18,10 +18,10 @@ const yaml = require('js-yaml');
 const path = require('path');
 
 
-module.exports = async function enrollUser() {
-  let name = 'admin';
-  let admin = 'admin'
-  let adminPass = 'adminpw'
+module.exports = async function enrollUser(name, admin, adminPass) {
+  // let name = 'admin';
+  // let admin = 'admin'
+  // let adminPass = 'adminpw'
 
   try {
     // load the network configuration
@@ -81,7 +81,7 @@ module.exports = async function enrollUser() {
       console.log(data);
     });
 
-    return x509Identity.credentials.certificate;
+    return { name: name, pem: x509Identity.credentials.certificate };
 
   } catch (error) {
     console.error(`Failed to enroll client user ${name}: ${error}`);

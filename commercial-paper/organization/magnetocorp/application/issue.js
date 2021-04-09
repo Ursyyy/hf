@@ -29,7 +29,7 @@ const CommercialPaper = require('../contract/lib/paper.js');
 // 'issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000'
 // { name, paperNumber, org, releaseDate, redeemDate, cost } 
 // Main program function
-module.exports = async function issue(userName, paperNumber, org, releaseDate, redeemDate, cost) {
+module.exports = async function issue(userName, certificate, paperNumber, org, releaseDate, redeemDate, cost) {
 
     // A wallet stores a collection of identities for use
     const wallet = await Wallets.newFileSystemWallet(`../identity/user/isabella/wallet`);
@@ -71,7 +71,7 @@ module.exports = async function issue(userName, paperNumber, org, releaseDate, r
         // issue commercial paper
         console.log('Submit commercial paper issue transaction.');
 
-        const issueResponse = await contract.submitTransaction('issue', org, paperNumber, releaseDate, redeemDate, cost);
+        const issueResponse = await contract.submitTransaction('issue', org, paperNumber, releaseDate, redeemDate, cost); // releaseDate = new date(dd-mm-yyyy) 
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);
@@ -81,7 +81,7 @@ module.exports = async function issue(userName, paperNumber, org, releaseDate, r
         console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`);
         console.log('Transaction complete.');
 
-        return paper.issuer
+        return paper
     } catch (error) {
 
         console.log(`Error processing transaction. ${error}`);

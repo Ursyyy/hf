@@ -11,10 +11,14 @@ const { Wallets, InMemoryWallet } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-let admin = 'admin1';
-let pass = 'adminpw';
+// let admin = 'admin';
+// let pass = 'adminpw';
+// const admin = 'user1';
+// const pass = 'user1pw';
+const admin = 'admin';
+const pass = 'adminpw';
 
-async function enrollAdmin(admin, pass) {
+module.exports = async function enrollAdmin(admin, pass) {
     try {
         // load the network configuration
         // const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
@@ -57,6 +61,5 @@ async function enrollAdmin(admin, pass) {
     }
 }
 
-enrollAdmin(admin, pass)
 // module.exports.enrollAdmin = enrollAdmin;
 // main();

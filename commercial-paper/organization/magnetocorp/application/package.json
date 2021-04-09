@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "test": "rm -rf _idwallet && node addToWallet.js && node issue.js",
     "serve": "nodemon server.js"

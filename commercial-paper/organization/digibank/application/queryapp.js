@@ -18,13 +18,15 @@
 
 // Bring key classes into scope, most importantly Fabric SDK network class
 
-import { Wallets , Gateway } from 'fabric-network';
-import fs from 'fs';
-import yaml from 'js-yaml';
 
+const { Wallets, Gateway } = require('fabric-network');
+const fs = require('fs');
+const yaml = require('js-yaml');
+
+const userName = 'Oleg7';
 
 // Main program function
-export default async function queryApp() {
+async function queryApp(userName) {
 
     // A wallet stores a collection of identities for use
     const wallet = await Wallets.newFileSystemWallet('../identity/user/balaji/wallet');
@@ -37,7 +39,7 @@ export default async function queryApp() {
     try {
 
         // Specify userName for network access
-        const userName = 'balaji';
+        
 
         // Load connection profile; will be used to locate a gateway
         let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/connection-org1.yaml', 'utf8'));
@@ -143,6 +145,8 @@ export default async function queryApp() {
     }
 }
 
+
+queryApp(userName)
 // main().then(() => {
 
 //     console.log('Queryapp program complete.');

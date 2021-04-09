@@ -1,12 +1,13 @@
 "use strict";
 
-import { Wallets, Gateway } from "fabric-network";
-import fs from "fs";
-import yaml from "js-yaml";
-import path from "path";
+
+const fs = require('fs');
+const yaml = require('js-yaml');
+const { Wallets, Gateway } = require('fabric-network');
+const path = require("path");
 
 let finished;
-export default async function history() {
+exports.module = async function history() {
   try {
     let result = {};
     // Set up the wallet - just use Org2's wallet (isabella)
